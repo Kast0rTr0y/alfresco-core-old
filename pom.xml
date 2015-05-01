@@ -15,8 +15,8 @@
    </organization>
    <licenses>
       <license>
-         <name>${maven.license.name}</name>
-         <url>${maven.license.url}</url>
+         <name>GNU Lesser General Public License v3.0 or later</name>
+         <url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
       </license>
    </licenses>
    <scm>
@@ -39,10 +39,6 @@
    </distributionManagement>
    
    <properties>
-      <version.major>5</version.major>
-      <version.minor>1</version.minor>
-      <version.revision>0</version.revision>
-        
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       
@@ -51,10 +47,6 @@
    </properties>
    
    <dependencies>
-   <!--  These dependencies have been checked against the content of 3rd-party/lib/**. 
-        | Where not public available (AKA patched), they have been deployed with the "patched" classifier
-        | in the Alfresco Artifacts Repository at artfifacts.alfresco.com thirdparty repository
-         -->
       <dependency>
          <groupId>commons-codec</groupId>
          <artifactId>commons-codec</artifactId>
