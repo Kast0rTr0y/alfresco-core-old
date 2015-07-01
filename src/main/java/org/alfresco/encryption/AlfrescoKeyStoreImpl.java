@@ -977,8 +977,6 @@ public class AlfrescoKeyStoreImpl implements AlfrescoKeyStore
     	 * For testing.
     	 * 
     	 * @param passwords
-    	 * @throws IOException
-    	 * @throws FileNotFoundException
     	 */
     	KeyInfoManager(Map<String, String> passwords, KeyResourceLoader keyResourceLoader)
     	{

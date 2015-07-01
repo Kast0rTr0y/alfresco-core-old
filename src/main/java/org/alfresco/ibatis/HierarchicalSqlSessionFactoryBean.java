@@ -138,7 +138,7 @@ public class HierarchicalSqlSessionFactoryBean extends SqlSessionFactoryBean
      * Sets the ObjectFactory.
      *
      * @since 1.1.2
-     * @param objectFactory
+     * @param objectFactory ObjectFactory
      */
     public void setObjectFactory(ObjectFactory objectFactory) {
         this.objectFactory = objectFactory;
@@ -148,7 +148,7 @@ public class HierarchicalSqlSessionFactoryBean extends SqlSessionFactoryBean
      * Sets the ObjectWrapperFactory.
      *
      * @since 1.1.2
-     * @param objectWrapperFactory
+     * @param objectWrapperFactory ObjectWrapperFactory
      */
     public void setObjectWrapperFactory(ObjectWrapperFactory objectWrapperFactory) {
         this.objectWrapperFactory = objectWrapperFactory;
@@ -158,7 +158,7 @@ public class HierarchicalSqlSessionFactoryBean extends SqlSessionFactoryBean
      * Sets the DatabaseIdProvider.
      *
      * @since 1.1.0
-     * @return
+     * @return DatabaseIdProvider
      */
     public DatabaseIdProvider getDatabaseIdProvider() {
         return databaseIdProvider;
@@ -168,7 +168,7 @@ public class HierarchicalSqlSessionFactoryBean extends SqlSessionFactoryBean
      * Gets the DatabaseIdProvider
      *
      * @since 1.1.0
-     * @param databaseIdProvider
+     * @param databaseIdProvider DatabaseIdProvider
      */
     public void setDatabaseIdProvider(DatabaseIdProvider databaseIdProvider) {
         this.databaseIdProvider = databaseIdProvider;

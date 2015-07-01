@@ -92,7 +92,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
 	/**
 	 * Get the local registered IP address for authentication purposes
 	 * 
-	 * @return
+	 * @return String
 	 */
 	protected String getLocalIPAddress()
     {
@@ -126,8 +126,8 @@ public class DefaultEncryptionUtils implements EncryptionUtils
     /**
      * Set the MAC on the HTTP response
      * 
-     * @param response
-     * @param mac
+     * @param response HttpServletResponse
+     * @param mac byte[]
      */
     protected void setMac(HttpServletResponse response, byte[] mac)
     {
@@ -142,7 +142,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
     /**
      * Get the MAC (Message Authentication Code) on the HTTP request
      * 
-     * @param req
+     * @param req HttpServletRequest
      * @return the MAC
      * @throws IOException
      */
@@ -162,7 +162,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
     /**
      * Get the MAC (Message Authentication Code) on the HTTP response
      * 
-     * @param res
+     * @param res HttpMethod
      * @return the MAC
      * @throws IOException
      */
@@ -181,7 +181,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
 
 	/**
 	 * Set the timestamp on the HTTP request
-	 * @param method
+	 * @param method HttpMethod
 	 * @param timestamp (ms, in UNIX time)
 	 */
 	protected void setRequestTimestamp(HttpMethod method, long timestamp)
@@ -191,7 +191,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
 
 	/**
 	 * Set the timestamp on the HTTP response
-	 * @param res
+	 * @param res HttpServletResponse
 	 * @param timestamp (ms, in UNIX time)
 	 */
 	protected void setTimestamp(HttpServletResponse res, long timestamp)
@@ -202,7 +202,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
 	/**
 	 * Get the timestamp on the HTTP response
 	 * 
-	 * @param method
+	 * @param method HttpMethod
 	 * @return timestamp (ms, in UNIX time)
 	 * @throws IOException
 	 */
@@ -222,7 +222,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
 	/**
 	 * Get the timestamp on the HTTP request
 	 * 
-	 * @param method
+	 * @param method HttpServletRequest
 	 * @return timestamp (ms, in UNIX time)
 	 * @throws IOException
 	 */
@@ -254,8 +254,8 @@ public class DefaultEncryptionUtils implements EncryptionUtils
     /**
      * Set the algorithm parameters header on the HTTP response
      * 
-     * @param response
-     * @param params
+     * @param response HttpServletResponse
+     * @param params AlgorithmParameters
      * @throws IOException
      */
     protected void setAlgorithmParameters(HttpServletResponse response, AlgorithmParameters params) throws IOException
@@ -269,7 +269,7 @@ public class DefaultEncryptionUtils implements EncryptionUtils
     /**
      * Decode cipher algorithm parameters from the HTTP method
      * 
-     * @param method
+     * @param method HttpMethod
      * @return decoded algorithm parameters
      * @throws IOException
      */

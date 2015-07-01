@@ -151,8 +151,8 @@ public class BridgeTable<T>
     }
 
     /**
-     * @param parent
-     * @param child
+     * @param parent T
+     * @param child T
      */
     private void addDescendants(T parent, T child)
     {
@@ -188,8 +188,8 @@ public class BridgeTable<T>
     }
 
     /**
-     * @param parent
-     * @param child
+     * @param parent T
+     * @param child T
      */
     private void removeDescendants(T parent, T child)
     {
@@ -224,8 +224,8 @@ public class BridgeTable<T>
     }
     
     /**
-     * @param parent
-     * @param child
+     * @param parent T
+     * @param child T
      */
     private void removeAncestors(T parent, T child)
     {
@@ -260,10 +260,10 @@ public class BridgeTable<T>
     }
 
     /**
-     * @param toAdd
-     * @param position
-     * @param target
-     * @param node
+     * @param toAdd HashMap<Integer, HashMap<T, Counter>>
+     * @param position Integer
+     * @param target HashMap<Integer, HashMap<T, Counter>>
+     * @param node T
      */
     private void add(HashMap<Integer, HashMap<T, Counter>> toAdd, Integer position, HashMap<Integer, HashMap<T, Counter>> target, T node)
     {
@@ -312,10 +312,10 @@ public class BridgeTable<T>
     }
 
     /**
-     * @param toRemove
-     * @param position
-     * @param target
-     * @param node
+     * @param toRemove HashMap<Integer, HashMap<T, Counter>>
+     * @param position Integer
+     * @param target HashMap<Integer, HashMap<T, Counter>>
+     * @param node T
      */
     private void remove(HashMap<Integer, HashMap<T, Counter>> toRemove, Integer position, HashMap<Integer, HashMap<T, Counter>> target, T node)
     {
@@ -364,8 +364,8 @@ public class BridgeTable<T>
     }
 
     /**
-     * @param parent
-     * @param child
+     * @param parent T
+     * @param child T
      */
     private void addAncestors(T parent, T child)
     {
@@ -436,7 +436,7 @@ public class BridgeTable<T>
     }
 
     /**
-     * @return
+     * @return Set<T>
      */
     public Set<T> keySet()
     {

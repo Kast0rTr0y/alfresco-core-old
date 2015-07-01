@@ -9,8 +9,8 @@ public class IPUtils
 	 * Returns the "real" IP address represented by ipAddress. If ipAddress is a loopback
 	 * address it is converted into the host's underlying IP address
 	 * 
-	 * @param ipAddress
-	 * @return 
+	 * @param ipAddress String
+	 * @return String
 	 * @throws UnknownHostException
 	 */
 	public static String getRealIPAddress(String ipAddress) throws UnknownHostException

@@ -227,8 +227,8 @@ public abstract class TransactionSupportUtil
     
     /**
      * Helper method to rebind the synchronization to the transaction
-     * 
-     * @param txnSynch
+     *
+     * @param txnSynch TransactionSynchronizationImpl
      */
     private static void rebindSynchronization(TransactionSynchronizationImpl txnSynch)
     {
@@ -244,8 +244,8 @@ public abstract class TransactionSupportUtil
      * <p>
      * All necessary synchronization instances will be registered automatically, if required.
      * 
-     * @param key
-     * @param resource
+     * @param key Object
+     * @param resource Object
      */
     public static void bindResource(Object key, Object resource)
     {
@@ -267,7 +267,7 @@ public abstract class TransactionSupportUtil
      * <p>
      * All necessary synchronization instances will be registered automatically, if required.
      * 
-     * @param key
+     * @param key Object
      */
     public static void unbindResource(Object key)
     {
@@ -289,7 +289,7 @@ public abstract class TransactionSupportUtil
      * The priority specifies the position for the listener during commit.   
      * For example flushing of caches needs to happen very late. 
      * @param listener the listener to bind.
-     * @param priority, 0 = Normal priority
+     * @param priority 0 = Normal priority
      * @return true if the new listener was bound.  False if the listener was already bound.
      */
     public static boolean bindListener(TransactionListener listener, int priority)
@@ -332,7 +332,7 @@ public abstract class TransactionSupportUtil
         /**
          * Sets up the resource map
          * 
-         * @param txnId
+         * @param txnId String
          */
         public TransactionSynchronizationImpl(String txnId)
         {

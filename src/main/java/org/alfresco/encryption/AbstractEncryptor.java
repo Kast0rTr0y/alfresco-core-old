@@ -83,7 +83,7 @@ public abstract class AbstractEncryptor implements Encryptor
      * @param keyAlias              the key alias
      * @param params                algorithm-specific parameters
      * @param mode                  the cipher mode
-     * @return
+     * @return Cipher
      */
     protected abstract Cipher getCipher(String keyAlias, AlgorithmParameters params, int mode);
 

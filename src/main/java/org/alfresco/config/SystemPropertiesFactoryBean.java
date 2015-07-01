@@ -132,8 +132,8 @@ public class SystemPropertiesFactoryBean extends PropertiesFactoryBean
      * Override hook. Allows subclasses to resolve a merged property from an alternative source, whilst still respecting
      * the chosen system property fallback path.
      * 
-     * @param systemProperty
-     * @param props
+     * @param systemProperty String
+     * @param props Properties
      */
     protected void resolveMergedProperty(String systemProperty, Properties props)
     {

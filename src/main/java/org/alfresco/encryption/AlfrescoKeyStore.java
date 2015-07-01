@@ -48,16 +48,17 @@ public interface AlfrescoKeyStore
 
 	/**
 	 * The key store parameters.
-	 * 
-	 * @return
-	 */
+	 *
+     * @return KeyStoreParameters
+     */
 	public KeyStoreParameters getKeyStoreParameters();
 
 	/**
 	 * The backup key store parameters.
 	 * 
-	 * @return
-	 */
+	 * @return 	 * @return
+
+     */
 	public KeyStoreParameters getBackupKeyStoreParameters();
 
 	/**
@@ -70,45 +71,45 @@ public interface AlfrescoKeyStore
     /**
      * Return the key with the given key alias.
      * 
-     * @param keyAlias
-     * @return
+     * @param keyAlias String
+     * @return Key
      */
     public Key getKey(String keyAlias);
 
     /**
      * Return the timestamp (in ms) of when the key was last loaded from the keystore on disk.
      * 
-     * @param keyAlias
-     * @return
+     * @param keyAlias String
+     * @return long
      */
     public long getKeyTimestamp(String keyAlias);
     
     /**
      * Return the backup key with the given key alias.
      * 
-     * @param keyAlias
-     * @return
+     * @param keyAlias String
+     * @return Key
      */
     public Key getBackupKey(String keyAlias);
     
     /**
      * Return all key aliases in the key store.
      * 
-     * @return
+     * @return Set<String>
      */
     public Set<String> getKeyAliases();
     
     /**
      * Create an array of key managers from keys in the key store.
      * 
-     * @return
+     * @return KeyManager[]
      */
 	public KeyManager[] createKeyManagers();
 	
 	/**
 	 * Create an array of trust managers from certificates in the key store.
 	 * 
-	 * @return
+	 * @return TrustManager[]
 	 */
 	public TrustManager[] createTrustManagers();
 	

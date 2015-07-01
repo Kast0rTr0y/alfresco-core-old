@@ -133,10 +133,10 @@ public class MACUtils
 	/**
 	 * Compares the expectedMAC against the MAC generated from 
 	 * Assumes message has been decrypted
-	 * @param keyAlias
-	 * @param expectedMAC
-	 * @param macInput
-	 * @return
+	 * @param keyAlias String
+	 * @param expectedMAC byte[]
+	 * @param macInput MACInput
+	 * @return boolean
 	 */
 	public boolean validateMAC(String keyAlias, byte[] expectedMAC, MACInput macInput)
 	{

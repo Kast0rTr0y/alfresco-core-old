@@ -183,7 +183,7 @@ public class RollupResultHandler implements ResultHandler
     
     /**
      * Client code <b>must</b> call this method once the query returns so that the final results
-     * can be passed to the inner {@link RowHandler}.  If a query is limited by size, then it is
+     * can be passed to the inner RowHandler.  If a query is limited by size, then it is
      * possible that the unprocessed results represent an incomplete final object; in this case
      * it would be best to ignore the last results.  If the query is complete (i.e. all results
      * are returned) then this method should be called.

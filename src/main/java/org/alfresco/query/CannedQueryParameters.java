@@ -46,7 +46,6 @@ public class CannedQueryParameters
      *    <li><b>queryExecutionId</b>: <tt>null</tt></li>
      * </ul>
      *  
-     * @see #NamedQueryParameters(Object, CannedQueryPageDetails, CannedQuerySortDetails, String, int, String)
      */
     public CannedQueryParameters(Object parameterBean)
     {
@@ -61,7 +60,6 @@ public class CannedQueryParameters
      *    <li><b>totalResultCountMax</b>: <tt>0</tt></li>
      * </ul>
      *  
-     * @see #NamedQueryParameters(Object, CannedQueryPageDetails, CannedQuerySortDetails, String, int, String)
      */
     public CannedQueryParameters(
             Object parameterBean,
@@ -84,7 +82,6 @@ public class CannedQueryParameters
      *    <li><b>queryExecutionId</b>: <tt>null</tt></li>
      * </ul>
      *  
-     * @see #NamedQueryParameters(Object, CannedQueryPageDetails, CannedQuerySortDetails, String, int, String)
      */
     public CannedQueryParameters(
             Object parameterBean,
@@ -198,7 +195,7 @@ public class CannedQueryParameters
     /**
      * Helper method to get the total number of query results that need to be obtained in order
      * to satisfy the {@link #getPageDetails() paging requirements}, the
-     * {@link #requestTotalResultCountMax() maximum result count} ... and an extra to provide
+     *  maximum result count ... and an extra to provide
      * 'hasMore' functionality.
      * 
      * @return                      the minimum number of results required before pages can be created

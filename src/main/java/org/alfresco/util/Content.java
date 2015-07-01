@@ -69,7 +69,7 @@ public interface Content
     /**
      * Gets the content reader (which is sensitive to encoding)
      * 
-     * @return
+     * @return Reader
      */
     public Reader getReader() throws IOException;
 }

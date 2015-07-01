@@ -35,7 +35,7 @@ public interface KeyResourceLoader
 	 * Loads and returns an InputStream of the key store at the configured location.
 	 * If the file cannot be found this method returns null.
 	 * 
-	 * @return
+	 * @return InputStream
 	 * @throws FileNotFoundException
 	 */
 	public InputStream getKeyStore(String keyStoreLocation) throws FileNotFoundException;
@@ -46,7 +46,7 @@ public interface KeyResourceLoader
 	 * Note that the passwords are not cached locally.
 	 * If the file cannot be found this method returns null.
 	 * 
-	 * @return
+	 * @return Properties
 	 * @throws IOException
 	 */
 	public Properties loadKeyMetaData(String keyMetaDataFileLocation) throws IOException, FileNotFoundException;

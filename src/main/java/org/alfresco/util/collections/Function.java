@@ -31,8 +31,8 @@ public interface Function<F, T>
 {
     /**
      * Converts a value of type F to a result of type T.
-     * @param value
-     * @return
+     * @param value F
+     * @return T
      */
     T apply(F value);
 }

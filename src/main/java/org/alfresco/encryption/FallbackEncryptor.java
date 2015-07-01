@@ -32,7 +32,7 @@ public interface FallbackEncryptor extends Encryptor
 	/**
 	 * Is the backup key available in order to fall back to?
 	 * 
-	 * @return
+	 * @return boolean
 	 */
     boolean backupKeyAvailable(String keyAlias);
 }

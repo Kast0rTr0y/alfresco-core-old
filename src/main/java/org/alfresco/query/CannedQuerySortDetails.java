@@ -33,7 +33,7 @@ import org.alfresco.util.Pair;
 public class CannedQuerySortDetails
 {
     /**
-     * Sort ordering for the {@link CannedQuerySortDetails#addSort(Object, SortOrder) sort pairs}.
+     * Sort ordering for the sort pairs.
      * @author Derek Hulley
      * @since 4.0
      */

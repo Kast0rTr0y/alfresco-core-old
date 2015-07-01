@@ -180,7 +180,7 @@ public abstract class CollectionUtils
      * @param <T> To type
      * @param values the values to convert.
      * @param transformer Used to convert values.
-     * @return
+     * @return List
      */
     public static <F, T> List<T> transform(Collection<F> values, Function<? super F, ? extends T> transformer)
     {
@@ -232,7 +232,7 @@ public abstract class CollectionUtils
      * @param <T> To type
      * @param values the values to convert.
      * @param transformer Used to convert values.
-     * @return
+     * @return List
      */
     public static <F, T> List<T> transform(Function<? super F, ? extends T> transformer, F... values)
     {
@@ -322,7 +322,7 @@ public abstract class CollectionUtils
     }
     
     /**
-     * See {@link #flatten(Collection)
+     * See {@link #flatten(Collection)}
      * @param collections a vararg of Collection objects to be flattened into a list.
      * @return A flat List containing the elements of the provided collections.
      * @since 5.0
@@ -341,9 +341,9 @@ public abstract class CollectionUtils
     
     /**
      * Finds the first value for which <code>acceptor</code> returns <code>true</code>.
-     * @param <T>
-     * @param values
-     * @param acceptor
+     * @param <T> T
+     * @param values Collection<T>
+     * @param acceptor Function<? super T, Boolean>
      * @return returns accepted value or <code>null</code>.
      */
     public static <T> T findFirst(Collection<T> values, Function<? super T, Boolean> acceptor)
@@ -363,9 +363,9 @@ public abstract class CollectionUtils
     
     /**
      * Returns an immutable Serializable Set containing the values.
-     * @param <T>
-     * @param values
-     * @return
+     * @param <T> T
+     * @param values T...
+     * @return Set<T>
      */
     public static <T> Set<T> unmodifiableSet(T... values)
     {
@@ -374,9 +374,9 @@ public abstract class CollectionUtils
     
     /**
      * Returns an immutable Serializable Set containing the values.
-     * @param <T>
-     * @param values
-     * @return
+     * @param <T> T
+     * @param values Collection<T>
+     * @return Set<T>
      */
     public static <T> Set<T> unmodifiableSet(Collection<T> values)
     {
@@ -385,9 +385,9 @@ public abstract class CollectionUtils
     }
 
     /**
-     * @param values
-     * @param transformer
-     * @return
+     * @param values Collection<F>
+     * @param transformer Function<F, T>
+     * @return Map
      */
     public static <F, T> Map<F, T> transformToMap(Collection<F> values,
             Function<F, T> transformer)

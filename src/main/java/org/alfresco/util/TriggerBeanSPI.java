@@ -26,42 +26,42 @@ public interface TriggerBeanSPI
 {
 
     /**
-     * @return
+     * @return int
      */
     int getRepeatCount();
 
     /**
-     * @param repeatCount
+     * @param repeatCount int
      */
     void setRepeatCount(int repeatCount);
 
     /**
-     * @return
+     * @return long
      */
     long getRepeatInterval();
 
     /**
-     * @param repeatInterval
+     * @param repeatInterval long
      */
     void setRepeatInterval(long repeatInterval);
 
     /**
-     * @param repeatIntervalMinutes
+     * @param repeatIntervalMinutes long
      */
     void setRepeatIntervalMinutes(long repeatIntervalMinutes);
 
     /**
-     * @return
+     * @return long
      */
     long getStartDelay();
 
     /**
-     * @param startDelay
+     * @param startDelay long
      */
     void setStartDelay(long startDelay);
 
     /**
-     * @param startDelayMinutes
+     * @param startDelayMinutes long
      */
     void setStartDelayMinutes(long startDelayMinutes);
 

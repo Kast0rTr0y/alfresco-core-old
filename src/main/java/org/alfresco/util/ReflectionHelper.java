@@ -46,8 +46,8 @@ public class ReflectionHelper
      * 
      * All exceptions are written to the Log instance for this class.
      * 
-     * @param className
-     * @return
+     * @param className String
+     * @return Object
      */
     public static Object newObject(String className)
     {
@@ -91,10 +91,10 @@ public class ReflectionHelper
      * 
      * All exceptions are written to the Log instance for this class.
 
-     * @param className
-     * @param argTypes
-     * @param args
-     * @return
+     * @param className String
+     * @param argTypes Class[]
+     * @param args Object[]
+     * @return Object
      */
     public static Object newObject(String className, Class[] argTypes, Object[] args)
     {
@@ -148,11 +148,11 @@ public class ReflectionHelper
      * Invokes a method on the given object by passing the given arguments
      * into the method.
      * 
-     * @param obj
-     * @param method
-     * @param argTypes
-     * @param args
-     * @return
+     * @param obj Object
+     * @param method String
+     * @param argTypes Class[]
+     * @param args Object[]
+     * @return Object
      */
     public static Object invoke(Object obj, String method, Class[] argTypes, Object[] args)
     {
