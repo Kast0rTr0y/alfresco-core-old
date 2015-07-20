@@ -30,12 +30,11 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  *
- *  The X509ServletFilterBase enforces X509 Authentication based on two init params:
+ *  The X509ServletFilterBase enforces X509 Authentication.
  *
- *  <b>cert-contains</b> : Ensure that the Cert contains a specific string
- *  <b>paths</b> : A comma delimited list of URI paths to enforce. Do not include the context name in the path. For example
- *  if the URL is /alfresco/service1 the path should be /service1.
- *
+ *  Init Param:
+ *  <b>cert-contains</b> : Ensure that the principal subject of the cert contains a specific string.
+
  *  The X509ServletFilter will also ensure that the cert is present in the request, which will only happen if there
  *  is a successful SSL handshake which includes client authentication. This handshake is handled by the Application Server.
  *  A SSL handshake that does not include client Authentication will receive a 403 error response.
@@ -49,7 +48,6 @@ public abstract class X509ServletFilterBase implements Filter {
 
     protected boolean enforce;
     private String certContains;
-    private String[] paths;
     private static Log logger = LogFactory.getLog(X509ServletFilterBase.class);
 
     public void init(FilterConfig config) throws ServletException
@@ -73,27 +71,13 @@ public abstract class X509ServletFilterBase implements Filter {
             if (this.enforce)
             {
                 /*
-                * We are enforcing so get the enforcement paths and cert-contains string.
-                *
-                * The paths are prepended with context path. For example /alfresco or /solr4
+                * We are enforcing so get the cert-contains string.
                 */
 
-                String contextPath = config.getServletContext().getContextPath();
                 this.certContains = config.getInitParameter("cert-contains");
 
                 if(logger.isDebugEnabled()) {
                     logger.debug("Cert must contain:"+this.certContains);
-                }
-
-                String pathString = config.getInitParameter("paths");
-                this.paths = pathString.split(",");
-                for(int i=0; i<paths.length; i++)
-                {
-                    paths[i] = contextPath+paths[i].trim();
-
-                    if(logger.isDebugEnabled()) {
-                        logger.debug("Enforcing path:"+paths[i]);
-                    }
                 }
             }
         }
@@ -121,52 +105,30 @@ public abstract class X509ServletFilterBase implements Filter {
                 logger.debug("Enforcing X509 request");
             }
 
-            /*
-            * We are enforcing X509 so tests if we are enforcing the requested URI.
-            */
-            String URI = httpRequest.getRequestURI();
-            if(enforceURI(URI)) {
+            X509Certificate[] certs = (X509Certificate[])httpRequest.getAttribute("javax.servlet.request.X509Certificate");
+            if(validCert(certs))
+            {
 
                 if(logger.isDebugEnabled()) {
-                    logger.debug("Enforcing URI:"+URI);
+                    logger.debug("Cert is valid");
                 }
 
                 /*
-                *  We are enforcing for this URI so validate the cert.
+                * The cert is valid so forward the request.
                 */
 
-                X509Certificate[] certs = (X509Certificate[])httpRequest.getAttribute("javax.servlet.request.X509Certificate");
-                if(validCert(certs))
-                {
-
-                    if(logger.isDebugEnabled()) {
-                        logger.debug("Cert is valid");
-                    }
-
-                    /*
-                    * The cert is valid so forward the request.
-                    */
-
-                    chain.doFilter(request,response);
-                }
-                else
-                {
-                    if(logger.isDebugEnabled()) {
-                        logger.debug("Cert is invalid");
-                    }
-
-                    /*
-                    * Invalid cert so send 403.
-                    */
-                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "X509 Authentication failure");
-                }
+                chain.doFilter(request,response);
             }
             else
             {
+                if(logger.isDebugEnabled()) {
+                    logger.debug("Cert is invalid");
+                }
+
                 /*
-                * We are not enforcing this URI so forward the request
+                * Invalid cert so send 403.
                 */
-                chain.doFilter(request,response);
+                httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "X509 Authentication failure");
             }
         }
         else
@@ -191,30 +153,6 @@ public abstract class X509ServletFilterBase implements Filter {
      **/
 
     protected abstract boolean checkEnforce(ServletContext servletContext) throws IOException;
-
-    private boolean enforceURI(String URI) {
-
-        /*
-        * Check to see if the requested URI starts with any of the paths that we are enforcing.
-        */
-
-        for(String path : paths)
-        {
-            if(logger.isDebugEnabled()) {
-                logger.debug("Matching path:"+path);
-            }
-
-            if(URI.startsWith(path))
-            {
-                if(logger.isDebugEnabled()) {
-                    logger.debug("Path matched:"+path);
-                }
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     private boolean validCert(X509Certificate[] certs)
     {
