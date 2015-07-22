@@ -44,7 +44,8 @@ import org.apache.commons.logging.LogFactory;
  *
  * */
 
-public abstract class X509ServletFilterBase implements Filter {
+public abstract class X509ServletFilterBase implements Filter
+{
 
     protected boolean enforce;
     private String certContains;
@@ -58,13 +59,15 @@ public abstract class X509ServletFilterBase implements Filter {
             *  Find out if we are enforcing.
             */
 
-            if(logger.isDebugEnabled()) {
+            if(logger.isDebugEnabled())
+            {
                 logger.debug("Initializing X509ServletFilter");
             }
 
             this.enforce = checkEnforce(config.getServletContext());
 
-            if(logger.isDebugEnabled()) {
+            if(logger.isDebugEnabled())
+            {
                 logger.debug("Enforcing X509 Authentication:"+this.enforce);
             }
 
@@ -76,7 +79,8 @@ public abstract class X509ServletFilterBase implements Filter {
 
                 this.certContains = config.getInitParameter("cert-contains");
 
-                if(logger.isDebugEnabled()) {
+                if(logger.isDebugEnabled())
+                {
                     logger.debug("Cert must contain:"+this.certContains);
                 }
             }
@@ -101,7 +105,8 @@ public abstract class X509ServletFilterBase implements Filter {
         */
         if(this.enforce)
         {
-            if(logger.isDebugEnabled()) {
+            if(logger.isDebugEnabled())
+            {
                 logger.debug("Enforcing X509 request");
             }
 
@@ -109,7 +114,8 @@ public abstract class X509ServletFilterBase implements Filter {
             if(validCert(certs))
             {
 
-                if(logger.isDebugEnabled()) {
+                if(logger.isDebugEnabled())
+                {
                     logger.debug("Cert is valid");
                 }
 
@@ -121,7 +127,8 @@ public abstract class X509ServletFilterBase implements Filter {
             }
             else
             {
-                if(logger.isDebugEnabled()) {
+                if(logger.isDebugEnabled())
+                {
                     logger.debug("Cert is invalid");
                 }
 
@@ -175,14 +182,16 @@ public abstract class X509ServletFilterBase implements Filter {
             /*
             * check the certificate has not expired.
             */
-            if(logger.isDebugEnabled()) {
+            if(logger.isDebugEnabled())
+            {
                 logger.debug("Checking cert is valid");
             }
             cert.checkValidity();
         }
         catch (Exception e)
         {
-            if(logger.isDebugEnabled()) {
+            if(logger.isDebugEnabled())
+            {
                 logger.debug("Cert has expired");
             }
 
@@ -198,7 +207,8 @@ public abstract class X509ServletFilterBase implements Filter {
 
         if(name.contains(this.certContains))
         {
-            if(logger.isDebugEnabled()) {
+            if(logger.isDebugEnabled())
+            {
                 logger.debug("Cert: "+ name + " contains "+ this.certContains);
             }
 
@@ -206,7 +216,8 @@ public abstract class X509ServletFilterBase implements Filter {
         }
         else
         {
-            if(logger.isDebugEnabled()) {
+            if(logger.isDebugEnabled())
+            {
                 logger.debug("Cert: "+ name + "  does not contain "+ this.certContains);
             }
             return false;
