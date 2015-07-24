@@ -81,7 +81,14 @@ public abstract class X509ServletFilterBase implements Filter
 
                 if(logger.isDebugEnabled())
                 {
-                    logger.debug("Cert must contain:"+this.certContains);
+                    if(certContains == null)
+                    {
+                        logger.debug("Not enforcing cert-contains");
+                    }
+                    else
+                    {
+                        logger.debug("Enforcing cert-contains:" + this.certContains);
+                    }
                 }
             }
         }
@@ -214,14 +221,14 @@ public abstract class X509ServletFilterBase implements Filter
         {
             if(logger.isDebugEnabled())
             {
-                logger.debug("Cert: "+ name + " contains "+ this.certContains);
+                logger.debug("Cert: "+ name + "  contains:  "+ this.certContains);
             }
 
             return true;
         }
         else
         {
-            logger.error("Cert: "+ name + "  does not contain "+ this.certContains);
+            logger.error("Cert: " + name + "  does not contain:  " + this.certContains);
             return false;
         }
     }
