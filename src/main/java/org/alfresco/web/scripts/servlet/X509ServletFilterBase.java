@@ -221,10 +221,7 @@ public abstract class X509ServletFilterBase implements Filter
         }
         else
         {
-            if(logger.isDebugEnabled())
-            {
-                logger.debug("Cert: "+ name + "  does not contain "+ this.certContains);
-            }
+            logger.error("Cert: "+ name + "  does not contain "+ this.certContains);
             return false;
         }
     }
