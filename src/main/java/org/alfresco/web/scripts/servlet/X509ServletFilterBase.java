@@ -192,7 +192,7 @@ public abstract class X509ServletFilterBase implements Filter
         {
             if(logger.isDebugEnabled())
             {
-                logger.debug("Cert has expired");
+                logger.debug("Cert is invalid", e);
             }
 
             return false;
