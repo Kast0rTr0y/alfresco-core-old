@@ -190,11 +190,7 @@ public abstract class X509ServletFilterBase implements Filter
         }
         catch (Exception e)
         {
-            if(logger.isDebugEnabled())
-            {
-                logger.debug("Cert is invalid", e);
-            }
-
+            logger.error("Cert is invalid", e);
             return false;
         }
 
