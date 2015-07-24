@@ -32,9 +32,9 @@ import org.apache.commons.logging.LogFactory;
  *
  *  The X509ServletFilterBase enforces X509 Authentication.
  *
- *  Init Param:
+ *  Optional Init Param:
  *  <b>cert-contains</b> : Ensure that the principal subject of the cert contains a specific string.
-
+ *
  *  The X509ServletFilter will also ensure that the cert is present in the request, which will only happen if there
  *  is a successful SSL handshake which includes client authentication. This handshake is handled by the Application Server.
  *  A SSL handshake that does not include client Authentication will receive a 403 error response.
@@ -200,6 +200,15 @@ public abstract class X509ServletFilterBase implements Filter
 
         X500Principal x500Principal = cert.getSubjectX500Principal();
         String name = x500Principal.getName();
+
+        /*
+        * Cert contains is an optional check
+        */
+
+        if(this.certContains == null)
+        {
+            return true;
+        }
 
         /*
         * Check that the cert contains the specified value.
