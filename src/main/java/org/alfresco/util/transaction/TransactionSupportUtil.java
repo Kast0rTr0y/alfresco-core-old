@@ -586,7 +586,7 @@ public abstract class TransactionSupportUtil
             // Need to run these in reverse order cache,lucene,listeners
             for(Integer priority : sortedPriorities)
             {
-                Set<TransactionListener> listeners = priorityLookup.get(priority);
+                Set<TransactionListener> listeners = new HashSet<TransactionListener>(priorityLookup.get(priority));
 
                 for(TransactionListener listener : listeners) 
                 {
