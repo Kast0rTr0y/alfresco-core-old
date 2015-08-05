@@ -50,19 +50,19 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  */
 public abstract class TransactionSupportUtil
 {
-	private static Log logger = LogFactory.getLog(TransactionSupportUtil.class);
-	
+    private static Log logger = LogFactory.getLog(TransactionSupportUtil.class);
+    
     /**
      * The order of synchronization set to be 100 less than the Hibernate synchronization order
      */
     public static final int SESSION_SYNCHRONIZATION_ORDER =
         SessionFactoryUtils.SESSION_SYNCHRONIZATION_ORDER - 100;
-	
+    
     /** resource key to store the transaction synchronizer instance */
     protected static final String RESOURCE_KEY_TXN_SYNCH = "txnSynch";
     /** resource binding during after-completion phase */
     protected static final String RESOURCE_KEY_TXN_COMPLETING = "AlfrescoTransactionSupport.txnCompleting";
-  	
+      
     /**
      * @return Returns the system time when the transaction started, or -1 if there is no current transaction.
      */
@@ -126,7 +126,7 @@ public abstract class TransactionSupportUtil
     
     public static boolean isActualTransactionActive()
     {
-    	return TransactionSynchronizationManager.isActualTransactionActive();
+        return TransactionSynchronizationManager.isActualTransactionActive();
     }
     
     /**
@@ -298,8 +298,8 @@ public abstract class TransactionSupportUtil
         {
             logger.debug("Bind Listener listener: " + listener + ", priority: " + priority);
         }
-    	TransactionSynchronizationImpl synch = getSynchronization();
-    	return synch.addListener(listener, priority);
+        TransactionSynchronizationImpl synch = getSynchronization();
+        return synch.addListener(listener, priority);
     }
     
     /**
@@ -307,7 +307,7 @@ public abstract class TransactionSupportUtil
      */
     public static Set<TransactionListener> getListeners()
     {
-    	  // get the synchronization
+          // get the synchronization
         TransactionSynchronizationImpl txnSynch = getSynchronization();
       
         return txnSynch.getListenersIterable();
@@ -363,25 +363,25 @@ public abstract class TransactionSupportUtil
             
             if(this.priorityLookup.containsKey(priority))
             {
-            	Set<TransactionListener> listeners = priorityLookup.get(priority);
-            	return listeners.add(listener);
+                Set<TransactionListener> listeners = priorityLookup.get(priority);
+                return listeners.add(listener);
             }
             else
             {
-            	synchronized (priorityLookup)
-            	{
-            		if(priorityLookup.containsKey(priority))
-            		{
-            			Set<TransactionListener> listeners = priorityLookup.get(priority);
-            			return listeners.add(listener);	
-            		}
-            		else
-            		{
-            			Set<TransactionListener> listeners = new LinkedHashSet<TransactionListener>(5);
-            			priorityLookup.put(priority, listeners);
-            			return listeners.add(listener);
-            		}
-            	}    	
+                synchronized (priorityLookup)
+                {
+                    if(priorityLookup.containsKey(priority))
+                    {
+                        Set<TransactionListener> listeners = priorityLookup.get(priority);
+                        return listeners.add(listener);    
+                    }
+                    else
+                    {
+                        Set<TransactionListener> listeners = new LinkedHashSet<TransactionListener>(5);
+                        priorityLookup.put(priority, listeners);
+                        return listeners.add(listener);
+                    }
+                }        
             }
         }
         
@@ -393,7 +393,7 @@ public abstract class TransactionSupportUtil
         private List<TransactionListener> getLevelZeroListenersIterable()
         {
             Set<TransactionListener>listeners = priorityLookup.get(0);
-           	return new ArrayList<TransactionListener>(listeners);
+               return new ArrayList<TransactionListener>(listeners);
         }
         
         /**
@@ -401,14 +401,14 @@ public abstract class TransactionSupportUtil
          */
         private Set<TransactionListener> getListenersIterable()
         {
-        	Set<TransactionListener> ret = new LinkedHashSet<TransactionListener>();
-        	Set<Entry<Integer, Set<TransactionListener>>> entries = priorityLookup.entrySet();
-        	
-        	for(Entry<Integer, Set<TransactionListener>> entry : entries)
-        	{
-        		ret.addAll((Set<TransactionListener>)entry.getValue());
-        	}
-        	
+            Set<TransactionListener> ret = new LinkedHashSet<TransactionListener>();
+            Set<Entry<Integer, Set<TransactionListener>>> entries = priorityLookup.entrySet();
+            
+            for(Entry<Integer, Set<TransactionListener>> entry : entries)
+            {
+                ret.addAll((Set<TransactionListener>)entry.getValue());
+            }
+            
             return ret;
         }
 
@@ -487,31 +487,31 @@ public abstract class TransactionSupportUtil
             
             if(logger.isDebugEnabled())
             {
-            	logger.debug("Before Prepare priorities:" + sortedPriorities);
+                logger.debug("Before Prepare priorities:" + sortedPriorities);
             }
             for(Integer priority : sortedPriorities)
             {
-            	Set<TransactionListener> listeners = priorityLookup.get(priority);
-            	
-            	for(TransactionListener listener : listeners)
-            	{
-            		listener.beforeCommit(readOnly);
-            	}
+                Set<TransactionListener> listeners = priorityLookup.get(priority);
+                
+                for(TransactionListener listener : listeners)
+                {
+                    listener.beforeCommit(readOnly);
+                }
             }
             if(logger.isDebugEnabled())
             {
-            	logger.debug("Prepared");
+                logger.debug("Prepared");
             }
         }
         
         /**
          * Execute the beforeCommit event handlers for the registered listeners
          * 
-         * @param readOnly	is read only
+         * @param readOnly    is read only
          */
         private void doBeforeCommit(boolean readOnly)
         {
-        	doBeforeCommit(new HashSet<TransactionListener>(), readOnly);
+            doBeforeCommit(new HashSet<TransactionListener>(), readOnly);
         }
         
         /**
@@ -519,25 +519,25 @@ public abstract class TransactionSupportUtil
          * This process is iterative as the process of calling listeners may lead to more listeners
          * being added.  The new listeners will be processed until there no listeners remaining.
          * 
-         * @param visitedListeners	a set containing the already visited listeners
-         * @param readOnly			is read only
+         * @param visitedListeners    a set containing the already visited listeners
+         * @param readOnly            is read only
          */
         private void doBeforeCommit(Set<TransactionListener> visitedListeners, boolean readOnly)
         {
-        	Set<TransactionListener> listeners = priorityLookup.get(0);
-        	Set<TransactionListener> pendingListeners = new HashSet<TransactionListener>(listeners);
-        	pendingListeners.removeAll(visitedListeners);
-        	
-        	if (pendingListeners.size() != 0)
-        	{
-	        	for (TransactionListener listener : pendingListeners) 
-	        	{
-	        		listener.beforeCommit(readOnly);
-	        		visitedListeners.add(listener);
-				}
-	        	
-	        	doBeforeCommit(visitedListeners, readOnly);
-        	}
+            Set<TransactionListener> listeners = priorityLookup.get(0);
+            Set<TransactionListener> pendingListeners = new HashSet<TransactionListener>(listeners);
+            pendingListeners.removeAll(visitedListeners);
+            
+            if (pendingListeners.size() != 0)
+            {
+                for (TransactionListener listener : pendingListeners) 
+                {
+                    listener.beforeCommit(readOnly);
+                    visitedListeners.add(listener);
+                }
+                
+                doBeforeCommit(visitedListeners, readOnly);
+            }
         }
         
         @Override
@@ -586,30 +586,30 @@ public abstract class TransactionSupportUtil
             // Need to run these in reverse order cache,lucene,listeners
             for(Integer priority : sortedPriorities)
             {
-            	Set<TransactionListener> listeners = priorityLookup.get(priority);
+                Set<TransactionListener> listeners = priorityLookup.get(priority);
 
-            	for(TransactionListener listener : listeners)
-            	{
-            		try
-            		{
-            			if (status  == TransactionSynchronization.STATUS_COMMITTED)
-            			{
-            				listener.afterCommit();
-            			}
-            			else
-            			{
-            				listener.afterRollback();
-            			}
-            		}
-            		catch (RuntimeException e)
-            		{
-            			logger.error("After completion (" + statusStr + ") TransactionalCache exception", e);
-            		}
-            	}
+                for(TransactionListener listener : listeners) 
+                {
+                    try
+                    {
+                        if (status  == TransactionSynchronization.STATUS_COMMITTED)
+                        {
+                            listener.afterCommit();
+                        }
+                        else
+                        {
+                            listener.afterRollback();
+                        }
+                    }
+                    catch (RuntimeException e)
+                    {
+                        logger.error("After completion (" + statusStr + ") TransactionalCache exception", e);
+                    }
+                }
             }
             if(logger.isDebugEnabled())
             {
-            	logger.debug("After Completion: DONE");
+                logger.debug("After Completion: DONE");
             }
             
             
@@ -620,19 +620,19 @@ public abstract class TransactionSupportUtil
     
     static private Comparator<Integer> FORWARD_INTEGER_ORDER = new Comparator<Integer>()
     {
-		@Override
+        @Override
         public int compare(Integer arg0, Integer arg1)
-        {			
-	        return arg0.intValue() - arg1.intValue();
+        {            
+            return arg0.intValue() - arg1.intValue();
         }
     } ;
     
     static private Comparator<Integer> REVERSE_INTEGER_ORDER = new Comparator<Integer>()
     {
-		@Override
+        @Override
         public int compare(Integer arg0, Integer arg1)
-        {			
-	        return arg1.intValue() - arg0.intValue();
+        {            
+            return arg1.intValue() - arg0.intValue();
         }
     } ;
 
