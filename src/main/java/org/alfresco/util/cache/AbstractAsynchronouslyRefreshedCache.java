@@ -107,6 +107,12 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
         }
 
         @Override
+        public String toString()
+        {
+            return "AbstractAsynchronouslyRefreshedCache [cacheId=" + cacheId + "]";
+        }
+
+        @Override
         public T get(String key)
         {
             liveLock.readLock().lock();
@@ -114,9 +120,9 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             {
                 if (live.get(key) != null)
                 {
-                    if (logger.isDebugEnabled())
+                    if (logger.isTraceEnabled())
                     {
-                        logger.debug("get() from cache");
+                        logger.trace("get() from cache for key " + key + " on " + this);
                     }
                     return live.get(key);
                 }
@@ -128,7 +134,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
 
             if (logger.isDebugEnabled())
             {
-                logger.debug("get() miss, sechudling and waiting ...");
+                logger.debug("get() miss, scheduling and waiting for key " + key + " on " + this);
             }
 
             // There was nothing to return so we build and return
@@ -143,7 +149,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
                     {
                         if (logger.isDebugEnabled())
                         {
-                            logger.debug("get() found existing build to wait for  ...");
+                            logger.debug("get() found existing build to wait for on " + this);
                         }
                         refresh = existing;
                     }
@@ -153,7 +159,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
                 {
                     if (logger.isDebugEnabled())
                     {
-                        logger.debug("get() building from scratch");
+                        logger.debug("get() building from scratch on " + this);
                     }
                     refresh = new Refresh(key);
                     refreshQueue.add(refresh);
@@ -174,12 +180,12 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
         {
             if (logger.isDebugEnabled())
             {
-                logger.debug("Building cache for tenant " + key + " ......");
+                logger.debug("Building cache for tenant " + key + " on " + this);
             }
             T cache = buildCache(key);
             if (logger.isDebugEnabled())
             {
-                logger.debug(".... cache built for tenant " + key);
+                logger.debug("Cache built for tenant " + key + " on " + this);
             }
 
             liveLock.writeLock().lock();
@@ -216,7 +222,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             // String tenantId = tenantService.getCurrentUserDomain();
             if (logger.isDebugEnabled())
             {
-                logger.debug("Async cache refresh request: " + cacheId + " for tenant " + key);
+                logger.debug("Async cache refresh request for tenant " + key + " on " + this);
             }
             registry.broadcastEvent(new RefreshableCacheRefreshEvent(cacheId, key), true);
         }
@@ -226,7 +232,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
         {
             if (logger.isDebugEnabled())
             {
-                logger.debug("Async cache onRefreshableCacheEvent " + refreshableCacheEvent);
+                logger.debug("Async cache onRefreshableCacheEvent " + refreshableCacheEvent + " on " + this);
             }
             if (false == refreshableCacheEvent.getCacheId().equals(cacheId))
             {
@@ -239,7 +245,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             {
                 if (logger.isDebugEnabled())
                 {
-                    logger.debug("Async cache adding" + refreshableCacheEvent.getKey() + " to post commit list");
+                    logger.debug("Async cache adding" + refreshableCacheEvent.getKey() + " to post commit list: " + this);
                 }
                 TransactionData txData = getTransactionData();
                 txData.keys.add(refreshableCacheEvent.getKey());
@@ -285,7 +291,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
                 {
                     if (logger.isDebugEnabled())
                     {
-                        logger.debug("Async cache adding refresh to queue for "+tenantId);
+                        logger.debug("Async cache adding refresh to queue for tenant " + tenantId + " on " + this);
                     }
                     refreshQueue.add(new Refresh(tenantId));
                 }
@@ -343,7 +349,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             }
             else
             {
-                throw new IllegalStateException("Method should not be called without holding the write lock");
+                throw new IllegalStateException("Method should not be called without holding the write lock: " + this);
             }
 
         }
@@ -375,7 +381,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             }
             else
             {
-                throw new IllegalStateException("Method should not be called without holding the write lock");
+                throw new IllegalStateException("Method should not be called without holding the write lock: " + this);
             }
 
         }
@@ -389,7 +395,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
                 {
                     if (logger.isDebugEnabled())
                     {
-                        logger.debug("submit() scheduling job");
+                        logger.debug("submit() scheduling job: " + this);
                     }
                     threadPoolExecutor.submit(this);
                     refreshState = RefreshState.WAITING;
@@ -411,7 +417,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             }
             catch (Exception e)
             {
-                logger.error("Cache update failed (" + this.getCacheId() + ").", e);
+                logger.error("Cache update failed: " + this, e);
                 runLock.writeLock().lock();
                 try
                 {
@@ -436,7 +442,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
 
             if (logger.isDebugEnabled())
             {
-                logger.debug("Building cache for key" + refresh.getKey()); 
+                logger.debug("Building cache for key" + refresh.getKey() + " on " + this); 
             }
 
             try
@@ -454,7 +460,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
         {
                 if (logger.isDebugEnabled())
                 {
-                logger.debug("Building cache for tenant" + refresh.getKey()+ " ......");
+                logger.debug("Building cache for tenant" + refresh.getKey() + ": " + this);
                 }
             T cache = buildCache(refresh.getKey());
                    if (logger.isDebugEnabled())
@@ -489,7 +495,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
                     {
                         if (logger.isDebugEnabled())
                         {
-                            logger.debug("Rescheduling ... more work");
+                            logger.debug("Rescheduling more work: " + this);
                         }
                         threadPoolExecutor.submit(this);
                         refreshState = RefreshState.WAITING;
@@ -498,7 +504,7 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
                     {
                         if (logger.isDebugEnabled())
                         {
-                            logger.debug("Nothing to do .... going idle");
+                            logger.debug("Nothing to do; going idle: " + this);
                         }
                         refreshState = RefreshState.IDLE;
                     }
@@ -670,7 +676,6 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             PropertyCheck.mandatory(this, "threadPoolExecutor", threadPoolExecutor);
             PropertyCheck.mandatory(this, "registry", registry);
             registry.register(this);
-            
             
             resourceKeyTxnData = RESOURCE_KEY_TXN_DATA + "." + cacheId;
 
