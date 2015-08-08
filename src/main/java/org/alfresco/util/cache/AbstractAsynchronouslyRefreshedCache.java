@@ -230,13 +230,14 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
         @Override
         public void onRefreshableCacheEvent(RefreshableCacheEvent refreshableCacheEvent)
         {
+            // Ignore events not targeted for this cache
+            if (!refreshableCacheEvent.getCacheId().equals(cacheId))
+            {
+                return;
+            }
             if (logger.isDebugEnabled())
             {
                 logger.debug("Async cache onRefreshableCacheEvent " + refreshableCacheEvent + " on " + this);
-            }
-            if (false == refreshableCacheEvent.getCacheId().equals(cacheId))
-            {
-                return;
             }
 
             // If in a transaction delay the refresh until after it commits
@@ -458,21 +459,21 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
         
         private void doRefresh(Refresh refresh)
         {
-                if (logger.isDebugEnabled())
-                {
+            if (logger.isDebugEnabled())
+            {
                 logger.debug("Building cache for tenant" + refresh.getKey() + ": " + this);
-                }
+            }
             T cache = buildCache(refresh.getKey());
-                   if (logger.isDebugEnabled())
-                {
+            if (logger.isDebugEnabled())
+            {
                 logger.debug(".... cache built for tenant" + refresh.getKey());
-                }
+            }
 
             liveLock.writeLock().lock();
             try
             {
                 live.put(refresh.getKey(), cache);
-                }
+            }
             finally
             {
                 liveLock.writeLock().unlock();
