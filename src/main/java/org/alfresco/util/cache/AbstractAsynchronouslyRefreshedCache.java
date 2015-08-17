@@ -176,6 +176,10 @@ public abstract class AbstractAsynchronouslyRefreshedCache<T>
             return get(key);
         }
 
+        /**
+         * Use the current thread to build and put a new version of the cache entry before returning.
+         * @param key           the cache key
+         */
         public void forceInChangesForThisUncommittedTransaction(String key)
         {
             if (logger.isDebugEnabled())
